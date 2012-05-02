@@ -5,14 +5,14 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "Filters"
-    val appVersion      = "1.0-SNAPSHOT"
+    val appVersion      = "1.0"
 
     val appDependencies = Seq(
       // Add your project dependencies here,
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
-      // Add your own project settings here
+      publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath + "/Documents/mvn-repo/snapshots")))
     )
 
 }
