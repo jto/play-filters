@@ -11,12 +11,13 @@ It's similar to JEE Filters ( Without XML :) ).
 	resolvers += "JTO snapshots" at "https://raw.github.com/jto/mvn-repo/master/snapshots"
 ```
 
-1. add a dependency declaration into your `Build.scala` or `build.sbt`.
-    1. current version
+2. add a dependency declaration into your `Build.scala` or `build.sbt`.
 
-            "filters" %% "filters" % "1.0"
+```scala    
+	"filters" %% "filters" % "1.0"
+```
 
-For example: `Build.scala`
+Complete example: `Build.scala`
 
 ```scala
 import sbt._
@@ -25,7 +26,7 @@ import PlayProject._
 
 object ApplicationBuild extends Build {
 
-    val appName         = "JavaFilters"
+    val appName         = "MyFancyApp"
     val appVersion      = "1.0"
 
     val appDependencies = Seq(
