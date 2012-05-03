@@ -1,4 +1,4 @@
-import com.github.jto.scala._
+import jto.scala.filters._
 
 import play.api.mvc._
 import play.api._

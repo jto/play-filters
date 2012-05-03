@@ -5,7 +5,7 @@ import play.libs.F.*;
 import play.mvc.*;
 import play.mvc.Http.*;
 
-import com.github.jto.*;
+import jto.java.filters.*;
 
 
 /**

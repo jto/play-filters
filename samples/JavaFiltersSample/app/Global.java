@@ -6,7 +6,7 @@ import play.mvc.*;
 import play.mvc.Http.*;
 import play.libs.*;
 
-import com.github.jto.*;
+import jto.java.filters.*;
 
 import filters.*;
 

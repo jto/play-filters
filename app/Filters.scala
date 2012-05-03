@@ -1,4 +1,4 @@
-package com.github.jto.scala;
+package jto.scala.filters;
 
 import play.api._
 import play.api.mvc._

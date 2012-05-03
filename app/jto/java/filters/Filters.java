@@ -1,4 +1,4 @@
-package com.github.jto;
+package jto.java.filters;
 
 import java.util.List;
 
