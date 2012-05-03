@@ -1,6 +1,6 @@
 # Filters Module
 
-This module provide a way to build global, and reusable request / response interceptor.
+This module provide a way to build global, and reusable request / response interceptors.
 It's similar to JEE Filters ( Without XML :) ).
 
 ## Installation
@@ -89,8 +89,8 @@ public class Global extends GlobalSettings {
 
 #### Creating a Filter
 
-To create a Filter, you need to implement `import com.github.jto.scala.Filter` (please make sure you're using the scala api)
-You're filter can either return a Result, or call `next(context)` to continue the chaining.
+To create a Filter, you need to implement `import com.github.jto.scala.Filter` (make sure you're using the scala api)
+Your filter can either return a Result, or call `next(context)` to continue the chaining.
 
 ```scala
 object AccessLog extends Filter {
@@ -106,8 +106,10 @@ object AccessLog extends Filter {
 
 Simply apply `Filters` on your Handler
 
+```scala
 object Global extends GlobalSettings {
 	override def onRouteRequest(request: RequestHeader): Option[Handler] = {
 		Filters(super.onRouteRequest(request), AccessLog)
 	}
 }
+```
