@@ -14,7 +14,7 @@ It's similar to JEE Filters ( Without XML :) ).
 2. add a dependency declaration into your `Build.scala` or `build.sbt`.
 
 ```scala    
-	"filters" %% "filters" % "1.0"
+	"jto" %% "filters" % "1.0"
 ```
 
 Complete example: `Build.scala`
@@ -30,7 +30,7 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0"
 
     val appDependencies = Seq(
-      "filters" %% "filters" % "1.0"
+      "jto" %% "filters" % "1.0"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(
