@@ -61,7 +61,7 @@ import play.libs.F.*;
 import play.mvc.*;
 import play.mvc.Http.*;
 
-import com.github.jto.*;
+import jto.java.filters.*;
 
 public class AccessLog implements Filter{
 	public Result call(Function<Context, Result> next, Context ctx) throws Throwable{
