@@ -50,7 +50,7 @@ Sample apps are available in the samples directory.
 
 #### Creating a Filter
 
-To create a Filter, you need to implement `import com.github.jto.Filter`
+To create a Filter, you need to implement `import jto.java.filters.Filter`
 You're filter can either return a Result, or call `next.apply(context)` to continue the chaining.
 
 ```java
@@ -90,7 +90,7 @@ public class Global extends GlobalSettings {
 
 #### Creating a Filter
 
-To create a Filter, you need to implement `import com.github.jto.scala.Filter` (make sure you're using the scala api)
+To create a Filter, you need to implement `import jto.scala.filters.Filter` (make sure you're using the scala api)
 Your filter can either return a Result, or call `next(context)` to continue the chaining.
 
 ```scala
