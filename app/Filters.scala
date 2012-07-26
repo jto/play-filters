@@ -48,7 +48,7 @@ object Filters {
 * Compose the action and the Filters to create a new Action
 */
 case class FilterChain[A](action: Action[A], filters: List[Filter]) extends Action[A] {
-	val chain = filters.foldLeft(action: Request[A] => Result){ (a, i) => i.apply(a) _ }
+	val chain = filters.foldLeft(action.apply: Request[A] => Result){ (a, i) => i.apply(a) _ }
 	override def apply(request: Request[A]): Result = chain(request)
 	override def parser = action.parser
 }

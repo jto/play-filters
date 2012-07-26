@@ -19,7 +19,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "Filters"
-    val appVersion      = "1.0"
+    val appVersion      = "1.1-SNAPSHOT"
 
     val appDependencies = Seq(
       // Add your project dependencies here,
@@ -27,6 +27,7 @@ object ApplicationBuild extends Build {
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
       organization := "jto",
+      resolvers += Resolver.url("LinkedIn Sandbox (plugins.sbt)", url("http://artifactory.corp.linkedin.com:8081/artifactory/ext-sandbox"))(Patterns("[organisation]/[module]/[revision]/[module]-[revision].[artifact]","[organisation]/[module]/[revision]/[artifact]-[revision].[ext]","[organisation]/[module]/[revision]/[module]-[revision].[ext]")),
       publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath + "/Documents/mvn-repo/snapshots")))
     )
 
