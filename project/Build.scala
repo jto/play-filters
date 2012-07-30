@@ -21,14 +21,22 @@ object ApplicationBuild extends Build {
     val appName         = "Filters"
     val appVersion      = "1.1-SNAPSHOT"
 
+    object Repos {
+      val artifactory = "http://artifactory.corp.linkedin.com:8081/artifactory/"
+      val mavenLocal = Resolver.file("file",  new File(Path.userHome.absolutePath + "/Documents/mvn-repo/snapshots"))
+      val sandbox = Resolver.url("Artifactory sandbox", url(artifactory + "ext-sandbox"))(Patterns("[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"))
+
+    }
+
     val appDependencies = Seq(
       // Add your project dependencies here,
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
       organization := "jto",
-      resolvers += Resolver.url("LinkedIn Sandbox (plugins.sbt)", url("http://artifactory.corp.linkedin.com:8081/artifactory/ext-sandbox"))(Patterns("[organisation]/[module]/[revision]/[module]-[revision].[artifact]","[organisation]/[module]/[revision]/[artifact]-[revision].[ext]","[organisation]/[module]/[revision]/[module]-[revision].[ext]")),
-      publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath + "/Documents/mvn-repo/snapshots")))
+      resolvers += Repos.sandbox,
+      publishTo := Some(Repos.sandbox),
+      credentials += Credentials(Path.userHome / ".sbt" / ".licredentials")
     )
 
 }
