@@ -19,7 +19,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "filters"
-    val appVersion      = "2012.07.30.77b960b"
+    val appVersion      = "1.0-SNAPSHOT"
 
     object Repos {
       val pattern = Patterns(
@@ -40,10 +40,13 @@ object ApplicationBuild extends Build {
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
       organization := "jto",
+      licenses := Seq("Apache License v2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+      homepage := Some(url("https://github.com/jto/play-filters")),
       resolvers += Repos.sandbox,
       publishTo := Some(Repos.sandbox),
       credentials += Credentials(Path.userHome / ".sbt" / ".licredentials"),
-      publishMavenStyle :=  false
+      publishMavenStyle :=  false //,
+      //isSnapshot <<= isSnapshot or version(_ endsWith "-SNAPSHOT")
     )
 
 }
