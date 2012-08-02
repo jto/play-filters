@@ -16,6 +16,7 @@ package jto.scala.filters
 
 import play.api._
 import play.api.mvc._
+import play.api.libs.iteratee.Iteratee
 
 /**
 * Implement this interface if you want to add a Filter to your application
@@ -29,16 +30,42 @@ import play.api.mvc._
 *	 }
 ** }}}
 */
-trait Filter {
-	def apply[A](next: Request[A] => Result)(request: Request[A]): Result
+trait EssentialFilter {
+  def apply(next: EssentialAction): EssentialAction
+}
+
+trait Filter extends EssentialFilter {
+
+  self =>
+
+  def apply(f:RequestHeader => Result)(rh:RequestHeader):Result
+
+  def apply(next: EssentialAction): EssentialAction  = {
+
+    val p = scala.concurrent.Promise[Result]()
+
+    new EssentialAction {
+
+      def apply(rh:RequestHeader):Iteratee[Array[Byte],Result] = {
+        val it = scala.concurrent.Promise[Iteratee[Array[Byte],Result]]()
+        val result = self.apply({(rh:RequestHeader) => it.success(next(rh)) ; AsyncResult(p.future)})(rh)
+        Iteratee.flatten(it.future).map{r => p.success(r); result}
+      }
+    }
+
+  }
+}
+
+object Filter {
+
 }
 
 /**
 * Compose the action and the Filters to create a new Action
 */
 object Filters {
-	def apply(h: Option[Handler], filters: Filter*) = h.map{ _ match {
-			case a: Action[_] => FilterChain(a, filters.toList)
+	def apply(h: Option[Handler], filters: EssentialFilter*) = h.map{ _ match {
+			case a: EssentialAction => FilterChain(a, filters.toList)
 			case h => h
 		}
 	}
@@ -47,8 +74,12 @@ object Filters {
 /**
 * Compose the action and the Filters to create a new Action
 */
-case class FilterChain[A](action: Action[A], filters: List[Filter]) extends Action[A] {
-	val chain = filters.foldLeft(action.apply: Request[A] => Result){ (a, i) => i.apply(a) _ }
-	override def apply(request: Request[A]): Result = chain(request)
-	override def parser = action.parser
+
+object FilterChain{
+  def apply[A](action:EssentialAction, filters: List[EssentialFilter]): EssentialAction = new EssentialAction {
+    def apply(rh:RequestHeader):Iteratee[Array[Byte],Result] = {
+      val chain = filters.foldLeft(action){ (a, i) => i(a) }
+      chain(rh)
+    }
+  }
 }

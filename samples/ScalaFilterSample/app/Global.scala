@@ -10,7 +10,7 @@ import play.api._
 *		[info] application - GET / => SimpleResult(200, Map(Content-Type -> text/html; charset=utf-8, X-FunkyHeader -> Funky))
 */
 object AccessLog extends Filter {
-	override def apply[A](next: Request[A] => Result)(request: Request[A]): Result = {
+	def apply(next: RequestHeader => Result)(request: RequestHeader): Result = {
 		val result = next(request)
 		play.Logger.info(request + " => " + result)
 		result
@@ -23,9 +23,9 @@ object AccessLog extends Filter {
 * Add a Funky Header to every PlainResult
 */
 object FunkyHeader extends Filter {
-	override def apply[A](next: Request[A] => Result)(request: Request[A]): Result = {
+	def apply(next: RequestHeader => Result)(request: RequestHeader): Result = {
 		next(request) match {
-			case p: PlainResult => p.withHeaders("X-FunkyHeader" -> "Funky")
+			case p: Result => p.withHeaders("X-FunkyHeader" -> "Funky")
 			case r => r
 		}
   }
