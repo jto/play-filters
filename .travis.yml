@@ -1,10 +1,10 @@
 language: scala
- scala:
-   - "2.9.2"
- jdk:
-   - openjdk7
-   - openjdk6
-   - oraclejdk7
- notifications:
-   email:
-     - jto+travis@zenexity.com
+scala:
+  - "2.9.2"
+jdk:
+  - openjdk7
+  - openjdk6
+  - oraclejdk7
+notifications:
+  email:
+    - jto+travis@zenexity.com
