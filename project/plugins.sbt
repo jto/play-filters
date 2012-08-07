@@ -9,5 +9,7 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 
 resolvers += "JTO snapshots" at "https://raw.github.com/jto/mvn-repo/master/snapshots"
 
+resolvers += Resolver.url("JTO ivy snapshots", url("https://raw.github.com/jto/mvn-repo/master/snapshots"))(Resolver.ivyStylePatterns) 
+
 // Use the Play sbt plugin for Play projects
 addSbtPlugin("play" % "sbt-plugin" % "2012.07.30.77b960b")
