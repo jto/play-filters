@@ -35,7 +35,6 @@ object ApplicationBuild extends Build {
     }
 
     val appDependencies = Seq(
-      // Add your project dependencies here,
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
@@ -44,8 +43,7 @@ object ApplicationBuild extends Build {
       homepage := Some(url("https://github.com/jto/play-filters")),
       publishTo := Some(Repos.sandbox),
       credentials += Credentials(Path.userHome / ".sbt" / ".licredentials"),
-      publishMavenStyle :=  false //,
-      //isSnapshot <<= isSnapshot or version(_ endsWith "-SNAPSHOT")
+      publishMavenStyle :=  false 
     )
 
 }
