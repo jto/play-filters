@@ -19,7 +19,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "filters"
-    val appVersion      = "1.0-SNAPSHOT"
+    val appVersion      = "2012.07.30.77b960b"
 
     object Repos {
       val pattern = Patterns(
