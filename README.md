@@ -1,4 +1,4 @@
-# Filters Module [![Build Status](https://secure.travis-ci.org/jto/play-filters.png?branch=master)](http://travis-ci.org/jto/play-filters)
+# Filters Module [![Build Status](https://secure.travis-ci.org/jto/play-filters.png?branch=li)](http://travis-ci.org/jto/play-filters)
 
 This module provide a way to build global, and reusable request / response interceptors.
 It's similar to JEE Filters ( Without XML :) ).
