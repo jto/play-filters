@@ -29,7 +29,7 @@ object ApplicationBuild extends Build {
       )
 
       val artifactory = "http://artifactory.corp.linkedin.com:8081/artifactory/"
-      val mavenLocal = Resolver.file("file",  new File(Path.userHome.absolutePath + "/Documents/mvn-repo/snapshots"))
+      val mavenLocal = Resolver.file("file",  new File(Path.userHome.absolutePath + "/Documents/mvn-repo/snapshots"))(Resolver.ivyStylePatterns)
       val sandbox = Resolver.url("Artifactory sandbox", url(artifactory + "ext-sandbox"))(pattern)
       val local = Resolver.file("file",  new File(Path.userHome.absolutePath + "/Desktop"))(pattern) // debug
     }
