@@ -25,16 +25,20 @@ object StatsFilter {
      import scala.concurrent.stm._
      import play.api.libs.iteratee._
      val timeBefore = System.currentTimeMillis()
-     def doneDeliveringBytes[E] = Enumeratee.onIterateeDone[E](() => {st(Stats(rh,System.currentTimeMillis() - timeBefore))})
+     def doneDeliveringBytes[E](timeResultDone:Long) = Enumeratee.onIterateeDone[E](() => {st(Stats(rh,System.currentTimeMillis() - timeResultDone))})
      val result = next(rh)
-     def eventuallyResult(r:Result):Result = {
+     def addTrackingToBody(r:PlainResult) = {
+       val resultDone = System.currentTimeMillis()
+       st(Stats(rh, resultDone - timeBefore))
        r match {
-         case r@SimpleResult(h,body) => SimpleResult(h, body &> doneDeliveringBytes)(r.writeable)
-         case AsyncResult(p) => AsyncResult(p.map(eventuallyResult))
+         case r@SimpleResult(h,body) => SimpleResult(h, body &> doneDeliveringBytes(resultDone))(r.writeable)
          case r => println("oops"); r
        }
      }
-     eventuallyResult(result)
+     result match {
+       case r:AsyncResult => AsyncResult(r.unflatten.map(addTrackingToBody))
+       case r:PlainResult => addTrackingToBody(r)
+     }
    }
 }
 
