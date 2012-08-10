@@ -18,18 +18,26 @@ object AccessLog extends Filter {
 }
 
 import play.api.libs.concurrent.execution.defaultContext
-case class Stats(rh:RequestHeader,requestTime:Long)
+case class Stats(rh:RequestHeader,name:String,requestTime:Long)
+
+object Stats {
+
+  def responseTime(rh:RequestHeader, time:Long) = Stats(rh,"response-time",time)
+
+  def bodyDelivery(rh:RequestHeader, time:Long) = Stats(rh,"body-delivery-time",time)
+
+}
 
 object StatsFilter {
    def apply(st:Stats => Unit) =  Filter { case (next,rh) =>
      import scala.concurrent.stm._
      import play.api.libs.iteratee._
      val timeBefore = System.currentTimeMillis()
-     def doneDeliveringBytes[E](timeResultDone:Long) = Enumeratee.onIterateeDone[E](() => {st(Stats(rh,System.currentTimeMillis() - timeResultDone))})
+     def doneDeliveringBytes[E](timeResultDone:Long) = Enumeratee.onIterateeDone[E](() => {st(Stats.bodyDelivery(rh,System.currentTimeMillis() - timeResultDone))})
      val result = next(rh)
      def addTrackingToBody(r:PlainResult) = {
        val resultDone = System.currentTimeMillis()
-       st(Stats(rh, resultDone - timeBefore))
+       st(Stats.responseTime(rh, resultDone - timeBefore))
        r match {
          case r@SimpleResult(h,body) => SimpleResult(h, body &> doneDeliveringBytes(resultDone))(r.writeable)
          case r => println("oops"); r
