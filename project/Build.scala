@@ -19,7 +19,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "filters"
-    val appVersion      = "2012.07.30.77b960b"
+    val appVersion      = "2294e23"
 
     object Repos {
       val pattern = Patterns(
@@ -31,6 +31,7 @@ object ApplicationBuild extends Build {
       val artifactory = "http://artifactory.corp.linkedin.com:8081/artifactory/"
       val mavenLocal = Resolver.file("file",  new File(Path.userHome.absolutePath + "/Documents/mvn-repo/snapshots"))(Resolver.ivyStylePatterns)
       val sandbox = Resolver.url("Artifactory sandbox", url(artifactory + "ext-sandbox"))(pattern)
+      val jtoSnaps = Resolver.url("JTO ivy snapshots", url("https://raw.github.com/jto/mvn-repo/master/snapshots"))(Resolver.ivyStylePatterns)
       val local = Resolver.file("file",  new File(Path.userHome.absolutePath + "/Desktop"))(pattern) // debug
     }
 
@@ -39,10 +40,12 @@ object ApplicationBuild extends Build {
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
       organization := "jto",
+      scalaVersion := "2.9.2",
       licenses := Seq("Apache License v2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
       homepage := Some(url("https://github.com/jto/play-filters")),
-      publishTo := Some(Repos.sandbox),
+      publishTo := Some(Repos.mavenLocal),
       credentials += Credentials(Path.userHome / ".sbt" / ".licredentials"),
+      resolvers += Repos.jtoSnaps,
       publishMavenStyle :=  false 
     )
 
