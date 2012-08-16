@@ -17,6 +17,7 @@ package jto.scala.filters
 import play.api._
 import play.api.mvc._
 import play.api.libs.iteratee._
+import play.api.libs.concurrent._
 
 /**
 * Implement this interface if you want to add a Filter to your application
@@ -40,8 +41,7 @@ trait Filter extends EssentialFilter {
 
   def apply(f:RequestHeader => Result)(rh:RequestHeader):Result
 
-  def apply(next: EssentialAction): EssentialAction  = {
-
+  def apply(next: EssentialAction): EssentialAction = {
     val p = scala.concurrent.Promise[Result]()
 
     new EssentialAction {
@@ -51,9 +51,8 @@ trait Filter extends EssentialFilter {
         val result = self.apply({(rh:RequestHeader) => it.success(next(rh)) ; AsyncResult(p.future)})(rh)
         val i = it.future.map(_.map({r => p.success(r); result}))
         result match {
-          case r:AsyncResult => Iteratee.flatten( r.unflatten.map{ r =>
-           i.value.getOrElse(Right(Done(r,Input.Empty:Input[Array[Byte]]))).right.get})
-                           
+          case r:AsyncResult => Iteratee.flatten( r.unflatten.map(Done(_,Input.Empty: Input[Array[Byte]])).or(i).map(_.fold(identity, identity)))
+
           case r:PlainResult => Done(r)
         }
       }

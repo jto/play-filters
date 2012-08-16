@@ -35,10 +35,7 @@ object ApplicationBuild extends Build {
       val local = Resolver.file("file",  new File(Path.userHome.absolutePath + "/Desktop"))(pattern) // debug
     }
 
-    val appDependencies = Seq(
-    )
-
-    val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
+    lazy val plugin = PlayProject(appName, appVersion, Nil, mainLang = SCALA, path = file("plugin")).settings(
       organization := "jto",
       scalaVersion := "2.9.2",
       licenses := Seq("Apache License v2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
@@ -48,5 +45,15 @@ object ApplicationBuild extends Build {
       resolvers += Repos.jtoSnaps,
       publishMavenStyle :=  false 
     )
+
+    lazy val javaSample = PlayProject("filters-sample-java", appVersion, Nil, mainLang = JAVA, path = file("samples/JavaFilterSample")).settings(
+      organization := "jto",
+      resolvers += Repos.sandbox
+    ).dependsOn(plugin)
+    
+    lazy val scalaSample = PlayProject("filters-sample-scala", appVersion, Nil, mainLang = SCALA, path = file("samples/ScalaFilterSample")).settings(
+      organization := "jto",
+      resolvers += Repos.sandbox
+    ).dependsOn(plugin)
 
 }
