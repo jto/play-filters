@@ -19,7 +19,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "filters"
-    val appVersion      = "2294e23"
+    val appVersion      = "2012.08.15.c4c3576"
 
     object Repos {
       val pattern = Patterns(
@@ -40,9 +40,9 @@ object ApplicationBuild extends Build {
       scalaVersion := "2.9.2",
       licenses := Seq("Apache License v2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
       homepage := Some(url("https://github.com/jto/play-filters")),
-      publishTo := Some(Repos.mavenLocal),
+      publishTo := Some(Repos.sandbox),
       credentials += Credentials(Path.userHome / ".sbt" / ".licredentials"),
-      resolvers += Repos.jtoSnaps,
+      resolvers ++= Seq(Repos.sandbox, Repos.jtoSnaps),
       publishMavenStyle :=  false 
     )
 
