@@ -46,12 +46,12 @@ object ApplicationBuild extends Build {
       publishMavenStyle :=  false 
     )
 
-    lazy val javaSample = PlayProject("filters-sample-java", appVersion, Nil, mainLang = JAVA, path = file("samples/JavaFilterSample")).settings(
+    lazy val javaSample = PlayProject("filters-sample-java", appVersion, Nil, mainLang = JAVA, path = file("samples/JavaFiltersSample")).settings(
       organization := "jto",
       resolvers += Repos.sandbox
     ).dependsOn(plugin)
     
-    lazy val scalaSample = PlayProject("filters-sample-scala", appVersion, Nil, mainLang = SCALA, path = file("samples/ScalaFilterSample")).settings(
+    lazy val scalaSample = PlayProject("filters-sample-scala", appVersion, Nil, mainLang = SCALA, path = file("samples/ScalaFiltersSample")).settings(
       organization := "jto",
       resolvers += Repos.sandbox
     ).dependsOn(plugin)

@@ -92,7 +92,7 @@ class WithFilters(filters: EssentialFilter*) extends GlobalSettings {
 object FilterChain{
   def apply[A](action:EssentialAction, filters: List[EssentialFilter]): EssentialAction = new EssentialAction {
     def apply(rh:RequestHeader):Iteratee[Array[Byte],Result] = {
-      val chain = filters.foldLeft(action){ (a, i) => i(a) }
+      val chain = filters.reverse.foldLeft(action){ (a, i) => i(a) }
       chain(rh)
     }
   }

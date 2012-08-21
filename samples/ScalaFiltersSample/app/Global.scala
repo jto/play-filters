@@ -11,6 +11,7 @@ import play.api._
 */
 object AccessLog extends Filter {
 	def apply(next: RequestHeader => Result)(request: RequestHeader): Result = {
+	  play.Logger.trace("AccessLog")
 		val result = next(request)
 		play.Logger.info(request + " => " + result)
 		result
@@ -30,6 +31,7 @@ object Stats {
 
 object StatsFilter {
    def apply(st:Stats => Unit) =  Filter { case (next,rh) =>
+     play.Logger.trace("StatsFilter")
      import scala.concurrent.stm._
      import play.api.libs.iteratee._
      val timeBefore = System.currentTimeMillis()
@@ -57,6 +59,7 @@ object StatsFilter {
 */
 object FunkyHeader extends Filter {
   def apply(next: RequestHeader => Result)(request: RequestHeader): Result = {
+    play.Logger.trace("FunkyHeader")
     next(request) match {
       case p: Result => p.withHeaders("X-FunkyHeader" -> "Funky")
       case r => r
@@ -64,7 +67,7 @@ object FunkyHeader extends Filter {
   }
 }
 
-object Global extends WithFilters(StatsFilter(println)) with GlobalSettings
+object Global extends WithFilters(FunkyHeader, StatsFilter(println), AccessLog) with GlobalSettings
 
 /*
 object Global extends /*GlobalSettings */{
