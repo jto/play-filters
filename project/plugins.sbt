@@ -9,7 +9,7 @@ logLevel := Level.Warn
 
 resolvers += "JTO snapshots" at "https://raw.github.com/jto/mvn-repo/master/snapshots"
 
-resolvers += Resolver.url("JTO ivy snapshots", url("https://raw.github.com/jto/mvn-repo/master/snapshots"))(Resolver.ivyStylePatterns) 
+resolvers += Resolver.url("JTO ivy snapshots", url("https://raw.github.com/jto/mvn-repo/master/snapshots"))(Resolver.ivyStylePatterns)
 
 // Use the Play sbt plugin for Play projects
 addSbtPlugin("play" % "sbt-plugin" % "2012.08.15.c4c3576")

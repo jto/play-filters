@@ -1,11 +1,11 @@
 // Copyright 2012 Julien Tournay
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //    http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "filters"
-    val appVersion      = "2012.08.15.c4c3576"
+    val appVersion      = "2012.08.15.c4c3576.v1"
 
     object Repos {
       val pattern = Patterns(
@@ -43,14 +43,14 @@ object ApplicationBuild extends Build {
       publishTo := Some(Repos.sandbox),
       credentials += Credentials(Path.userHome / ".sbt" / ".licredentials"),
       resolvers ++= Seq(Repos.sandbox, Repos.jtoSnaps),
-      publishMavenStyle :=  false 
+      publishMavenStyle :=  false
     )
 
     lazy val javaSample = PlayProject("filters-sample-java", appVersion, Nil, mainLang = JAVA, path = file("samples/JavaFiltersSample")).settings(
       organization := "jto",
       resolvers += Repos.sandbox
     ).dependsOn(plugin)
-    
+
     lazy val scalaSample = PlayProject("filters-sample-scala", appVersion, Nil, mainLang = SCALA, path = file("samples/ScalaFiltersSample")).settings(
       organization := "jto",
       resolvers += Repos.sandbox
