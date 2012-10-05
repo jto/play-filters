@@ -50,7 +50,7 @@ Sample apps are available in the samples directory.
 
 #### Creating a Filter
 
-To create a Filter, you need to implement `import jto.java.filters.Filter`
+To create a Filter, you need to implement `jto.java.filters.Filter`
 You're filter can either return a Result, or call `next.apply(context)` to continue the chaining.
 
 ```java
@@ -105,15 +105,24 @@ object AccessLog extends Filter {
 
 #### Using filters
 
-Simply apply `Filters` on your Handler
+There's two different solutions to apply filters.
+
+
+The first one is to extend `WithFilters`, passing it the Filter(s) you want to apply.
 
 ```scala
+object Global extends WithFilters(StatsFilter(println), AccessLog) with GlobalSettings
+```
+
+The second on is to call `Filters` in the doFilter method.
+```scala
 object Global extends GlobalSettings {
-	override def onRouteRequest(request: RequestHeader): Option[Handler] = {
-		Filters(super.onRouteRequest(request), AccessLog)
+	override def doFilter(a:EssentialAction): EssentialAction = {
+		Filters(a, StatsFilter(println), AccessLog)
 	}
 }
 ```
+
 ## Licence
 
  Copyright 2012 Julien Tournay

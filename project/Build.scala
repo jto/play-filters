@@ -19,7 +19,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "filters"
-    val appVersion      = "2012.08.15.c4c3576.v1"
+    val appVersion      = "2012.09.20.1886ca6.v3"
 
     object Repos {
       val pattern = Patterns(
@@ -36,6 +36,7 @@ object ApplicationBuild extends Build {
     }
 
     lazy val plugin = PlayProject(appName, appVersion, Nil, mainLang = SCALA, path = file("plugin")).settings(
+      playPlugin := true,
       organization := "jto",
       scalaVersion := "2.9.2",
       licenses := Seq("Apache License v2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
@@ -45,6 +46,7 @@ object ApplicationBuild extends Build {
       resolvers ++= Seq(Repos.sandbox, Repos.jtoSnaps),
       publishMavenStyle :=  false
     )
+
 
     lazy val javaSample = PlayProject("filters-sample-java", appVersion, Nil, mainLang = JAVA, path = file("samples/JavaFiltersSample")).settings(
       organization := "jto",
